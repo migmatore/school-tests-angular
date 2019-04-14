@@ -1,0 +1,23 @@
+.content {
+    text-align: left;
+    width: 500px;
+    padding-left: 65px;
+
+    .question {
+        font-size: 1.1em;
+    }
+
+    mat-radio-button {
+        margin-left: 25px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .answer {
+        margin-bottom: 10px;
+    }
+
+    .check-btn {
+        margin-top: 20px;
+    }
+}
