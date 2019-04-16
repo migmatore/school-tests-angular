@@ -1,7 +1,10 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material";
 
+import axios from 'axios';
+
 export interface DialogData {
+    b: string
     result: string;
 }
 
@@ -30,28 +33,37 @@ export class TestDetailComponent implements OnInit {
     }
 
     private checkTest(): void {
-        if (this.answer1 != '2') {
-            this.mistakes++;
+        // let answers: number[] = [this.answer1, this.answer2, this.answer3, this.answer4];
+        //
+        // let _answers: number[] = [3, 2, 2, 2];
+        //
+        // for(let i = 0; i < answers.length; i++) {
+        //     for (let j = 0; j < _answers.length; j++) {
+        //         if (answers[i] != _answers[j]) {
+        //             console.log("bad");
+        //             break;
+        //         }
+        //         if (answers[i] == _answers[j]) {
+        //             console.log("good");
+        //             break;
+        //         }
+        //     }
+        // }
 
-            if (this.answer2 != '3') {
-                this.mistakes++;
+        let formData = new FormData();
 
-                if (this.answer3 != '2') {
-                    this.mistakes++;
-                } else {
-                    this.mistakes--;
-                }
-            } else {
-                this.mistakes--;
-            }
-        } else {
-            this.mistakes--;
-        }
+        formData.append("ans1", this.answer1);
+        formData.append("ans2", this.answer2);
+        formData.append("ans3", this.answer3);
 
-        // const dialogRef = this.dialog.open(ExampleDialog, {
-        //     width: '250px',
-        //     data: { result: result }
-        // });
+        axios.post("http://localhost:8081/test", formData)
+            .then(response => {
+                const dialogRef = this.dialog.open(ExampleDialog, {
+                    width: '250px',
+                    data: {b: response.data["data"], result: response.data["result"]}
+                });
+            })
+            .catch(error => console.log(error));
     }
 }
 
